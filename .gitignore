@@ -1,2 +1,10 @@
 
 src/LibraryManager/.idea/.idea.LibraryManager/.idea/dataSources.local.xml
+/src/LibraryManager/.idea
+/src/LibraryManager/LibraryManager.API/bin
+/src/LibraryManager/LibraryManager.API/obj
+/src/LibraryManager/LibraryManager.Application/obj
+/src/LibraryManager/LibraryManager.Core/obj
+/src/LibraryManager/LibraryManager.Infrastructure/bin
+/src/LibraryManager/LibraryManager.Infrastructure/obj
+/src/LibraryManager/LibraryManager.Application/bin
