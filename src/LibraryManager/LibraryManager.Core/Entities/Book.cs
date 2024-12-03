@@ -40,14 +40,6 @@ public class Book : BaseEntity
         }
     }
 
-    public void ToReserve()
-    {
-        if (Status == BookStatus.Available)
-        {
-            Status = BookStatus.Reserved;
-        }
-    }
-
     public void ToAvaliable() => Status = BookStatus.Available;
 
     public void Update(string title, string author, string isbn, int publicationYear)

@@ -18,7 +18,7 @@ public class Loan : BaseEntity
     public User User { get; private set; }
     public Guid IdBook { get; private set; }
     public Book Book { get; private set; }
-    private bool BookReturned { get; set; }
+    public bool BookReturned { get; private set; }
     public DateTime LoanDate { get; private set; }
     public DateTime ExpectedReturnDate { get; private set; }
     private DateTime ReturnDate { get; set; }

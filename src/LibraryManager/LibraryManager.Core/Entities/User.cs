@@ -17,4 +17,11 @@ public class User : BaseEntity
     public List<Loan> Loans { get; private set; }
     
     public void SetAsInactive() => Active = false;
+
+    public void Update(string name, string email, bool active)
+    {
+        Name = name;
+        Email = email;
+        Active = active;
+    }
 }

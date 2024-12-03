@@ -20,13 +20,16 @@ public static class InfrastructureModule
     public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("LibraryManagerCS");
-        services.AddDbContext<LibraryManagerDbContext>(o => o.UseSqlServer(connectionString));
+        services.AddDbContext<LibraryManagerDbContext>(o => o.UseSqlServer(connectionString, 
+            b => b.MigrationsAssembly(typeof(LibraryManagerDbContext).Assembly.FullName)));
         return services;
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ILoanRepository, LoanRepository>();
         return services;
     }
     
