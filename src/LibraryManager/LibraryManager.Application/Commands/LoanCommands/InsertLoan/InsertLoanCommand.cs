@@ -1,10 +1,12 @@
+using LibraryManager.Application.Models;
 using LibraryManager.Core.Entities;
+using MediatR;
 
-namespace LibraryManager.Application.Models;
+namespace LibraryManager.Application.Commands.LoanCommands.InsertLoan;
 
-public class LoanInputModel
+public class InsertLoanCommand : IRequest<ResultViewModel<Guid>>
 {
-    public LoanInputModel(Guid idUser, Guid idBook)
+    public InsertLoanCommand(Guid idUser, Guid idBook)
     {
         IdUser = idUser;
         IdBook = idBook;

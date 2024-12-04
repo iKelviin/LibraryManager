@@ -34,6 +34,7 @@ public class LoanRepository : ILoanRepository
     public Task<Loan?> GetByIdAsync(Guid id)
     {
         var loan = _context.Loans
+            .Where(l => !l.IsDeleted)
             .Include(b => b.Book)
             .Include(u => u.User)
             .SingleOrDefaultAsync(l => l.Id == id);

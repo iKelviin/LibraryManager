@@ -1,3 +1,4 @@
+using LibraryManager.Application;
 using LibraryManager.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -9,7 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddApplication();
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

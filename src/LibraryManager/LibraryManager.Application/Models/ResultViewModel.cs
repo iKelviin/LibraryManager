@@ -2,17 +2,17 @@ namespace LibraryManager.Application.Models;
 
 public class ResultViewModel
 {
-    public ResultViewModel(bool isSucces = true, string message = "")
+    public ResultViewModel(bool isSuccess = true, string message = "")
     {
-        IsSucces = isSucces;
+        IsSuccess = isSuccess;
         Message = message;
     }
 
-    public bool IsSucces { get; private set; }
+    public bool IsSuccess { get; private set; }
     public string Message { get; private set; }
 
     public static ResultViewModel Success() => new();
-    public static ResultViewModel Error(string message) => new() { IsSucces = false, Message = message };
+    public static ResultViewModel Error(string message) => new() { IsSuccess = false, Message = message };
 }
 
 public class ResultViewModel<T> : ResultViewModel
@@ -23,7 +23,7 @@ public class ResultViewModel<T> : ResultViewModel
     }
     public T? Data { get; private set; }
     
-    public static ResultViewModel<T> Sucess(T data) => new(data);
+    public static ResultViewModel<T> Success(T data) => new(data);
     public static ResultViewModel<T> Error(string message) => new(default,false,message);
 
 }

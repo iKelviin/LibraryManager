@@ -21,7 +21,9 @@ public class BookRepository : IBookRepository
 
     public async Task<Book?> GetByIdAsync(Guid id)
     {
-        var book = await _context.Books.FindAsync(id);
+        var book = await _context.Books
+            .Where(x=> !x.IsDeleted)
+            .SingleOrDefaultAsync(b => b.Id == id);
         
         return book;
     }
