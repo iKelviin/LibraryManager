@@ -8,3 +8,8 @@ src/LibraryManager/.idea/.idea.LibraryManager/.idea/dataSources.local.xml
 /src/LibraryManager/LibraryManager.Infrastructure/bin
 /src/LibraryManager/LibraryManager.Infrastructure/obj
 /src/LibraryManager/LibraryManager.Application/bin
+/src/LibraryManager/LibraryManager.Core/bin
+/src/LibraryManager/LibraryManager.Site/bin
+/src/LibraryManager/LibraryManager.Site/obj/Debug
+/src/LibraryManager/SITE OLD/LibraryManager.Site/obj/Debug
+/src/LibraryManager/LibraryManager.Site/wwwroot

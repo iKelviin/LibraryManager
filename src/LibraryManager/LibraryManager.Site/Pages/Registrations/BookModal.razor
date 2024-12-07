@@ -1,0 +1,84 @@
+@using LibraryManager.Site.Models
+@using LibraryManager.Site.Services.Interfaces
+@inject IBookService BookService
+@inject IJSRuntime JSRuntime
+
+
+<div id="bookModal" role="dialog" class="modal zoomIn" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (book.Id == Guid.Empty)
+                {
+                    <h5 class="modal-title" id="myModalLabel"> Cadastrar Livro</h5>
+                }
+                else
+                {
+                    <h5 class="modal-title" id="myModalLabel"> Editar Livro</h5>
+                }
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@book" OnValidSubmit="@Submit">
+                    <DataAnnotationsValidator />
+                    <div class="row mb-2">
+                        <div>
+                            <label for="title" class="form-label">Nome do Livro</label>
+                            <input type="hidden" @bind-value="@book.Id" />
+                            <InputText @bind-Value="book.Title" type="text" autocomplete="not" class="form-control" id="title" />
+                            <ValidationMessage For="() => book.Title" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div>
+                            <label for="autor" class="form-label">Autor do Livro</label>
+                            <InputText @bind-Value="book.Author" type="text" autocomplete="not" class="form-control" id="autor" />
+                            <ValidationMessage For="() => book.Author" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div>
+                            <label for="publicationYear" class="form-label">Ano de Publicação</label>
+                            <InputNumber  @bind-Value="book.PublicationYear" type="number" autocomplete="not" class="form-control" id="publicationYear" />
+                            <ValidationMessage For="() => book.PublicationYear" />
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div>
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <InputText  @bind-Value="book.ISBN" type="text" autocomplete="not" class="form-control" id="isbn" />
+                            <ValidationMessage For="() => book.ISBN" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public BookViewModel book { get; set; }
+    [Parameter]
+    public Action ChangedData { get; set; }
+
+    private async Task CloseModal()
+    {
+        await JSRuntime.InvokeAsync<Object>("CloseModal", "bookModal");
+    }
+
+    private async Task Submit()
+    {
+        await BookService.Add(book);
+        await CloseModal();
+        ChangedData?.Invoke();
+    }
+    
+}

@@ -1,0 +1,78 @@
+@page "/books"
+@using LibraryManager.Site.Models
+@using LibraryManager.Site.Services.Interfaces
+@inject IBookService BookService
+
+<h3>Catálogo de Livros</h3>
+
+@if (Books == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-6 g-6 mb-3 gap-5"> <!-- Ajuste da grid -->
+        @foreach (var book in Books)
+        {
+            <div class="col">
+                <!--div class="card shadow p-3 mb-5 rounded" style="height: 100%;">
+                    <div class="card-img-top p-2 text-center">
+                        <img class="border-1" src="@book.ImageUrl" alt="@book.Title" style="max-height: 250px">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h4 class="card-title mb-2 text-overflow-ellipsis" style="overflow: hidden;">@book.Title</h4>
+                            <h6 class="card-subtitle font-14 text-muted mt-3">@book.Author</h6>
+                        </div>
+                        <div class="card-footer mt-5" style="margin-bottom:auto;">
+                            <a href="@book.Id/book-details" class="card-link link-secondary">Detalhes<i
+                                                                                                         class="ri-arrow-right-s-line ms-1 align-middle lh-1"></i></a>
+                            <a class="card-link link-success">@book.Status<i
+                                                                              class="ri-bookmark-line align-middle ms-1 lh-1"></i></a>
+                        </div>
+                    </div>
+                </div-->
+
+                <div class="card" style="width: 18rem;height: 100%">
+                    <div class="card-img-top p-2 text-center">
+                        <img class="border-1" src="@book.ImageUrl" alt="@book.Title" style="max-height: 250px">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">@book.Title</h5>
+                        <h6 class="card-subtitle font-14 text-muted mt-3">@book.Author</h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="@book.Id/book-details" class="card-link link-secondary">Detalhes</a>
+                        @if (@book.Status == "Available")
+                        {
+                           <a class="card-link link-success">Disponível<i class="ri-checkbox-circle-fill align-middle ms-1 lh-1"></i></a>
+                        }
+                        else
+                        {
+                            <a class="card-link link-danger">Alugado<i class="ri-close-circle-fill align-middle ms-1 lh-1"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<BookViewModel>? Books;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await BookService.GetAllBooks();
+
+        if (result.IsSuccess)
+        {
+            Books = result.Data;
+        }
+        else
+        {
+            Console.WriteLine(result.ErrorMessage);
+        }
+    }
+
+}

@@ -1,0 +1,81 @@
+@page "/{BookId:guid}/book-details"
+@using LibraryManager.Site.Models
+@using LibraryManager.Site.Services.Interfaces
+@inject IBookService BookService
+
+<h3>Detalhes</h3>
+
+@if (Loading)
+{
+    <p>Carregando informações do livro...</p>
+}
+else
+{
+    @if (book.Id != Guid.Empty)
+    {
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 23rem;height: 100%">
+                    <div class="card-img-top p-2 text-center">
+                        <img class="border-1" src="@book.ImageUrl" alt="@book.Title" style="max-height: 500px">
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="mb-4">@book.Title</h1>
+                        <h4 class="font-14 text-muted mt-3"><strong>Autor:</strong> @book.Author</h4>
+                        <h4 class="font-14 text-muted mt-3"><strong>Ano de Publicação:</strong> @book.PublicationYear</h4>
+                        <h5 class="font-14 text-muted mt-3"><strong>ISBN:</strong> @book.ISBN</h5>
+                    </div>
+                    <div class="card-footer">
+                        <h3>Status: 
+                        @if (@book.Status == "Available")
+                        {
+                            <a class="card-link link-success"> Disponível<i class="ri-checkbox-circle-fill align-middle ms-1 lh-1"></i></a>
+                        }
+                        else
+                        {
+                            <a class="card-link link-danger"> Alugado<i class="ri-close-circle-fill align-middle ms-1 lh-1"></i></a>
+                        }
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Livro não encontrado.</p>
+    }
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p>@ErrorMessage</p>
+    }
+}
+
+@code {
+    [Parameter] public Guid BookId { get; set; }
+
+    private BookViewModel book { get; set; }
+    public string? ErrorMessage;
+    public bool Loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await BookService.GetBookById(BookId);
+        if (result.IsSuccess)
+        {
+            book = result.Data!;
+        }
+        else
+        {
+            ErrorMessage = result.ErrorMessage;
+        }
+        Loading = false;
+        StateHasChanged();
+    }
+}

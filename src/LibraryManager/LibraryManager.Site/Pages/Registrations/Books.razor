@@ -1,0 +1,160 @@
+@page "/registration/books"
+@using LibraryManager.Site.Models
+@using LibraryManager.Site.Services.Interfaces
+@inject IBookService BookService
+
+<div class="card">
+    <div class="card-header align-items-center d-flex">
+        <h4 class="card-title mb-0 flex-grow-1">Lista de Livros Cadastrados</h4>
+        <div class="flex-shrink-0">
+            <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#produtoModal"
+                    @onclick="(() => InitializeBook())">Cadastrar
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row p-2">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar..." @bind="SearchWord">
+                    <button class="btn btn-outline-success material-shadow-none" type="button" @onclick="Search">
+                        Pesquisar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive mt-4 p-2">
+            <table class="table table-bordered table-centered align-middle table-nowrap mb-0">
+                <thead class="text-muted table-light">
+                <tr>
+                    <th scope="col">Livro</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Ano de Publicação</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ação</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @if (books?.Data == null)
+                {
+                    <tr>
+                        <td colspan="7">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary avatar-sm" role="status">
+                                    <span class="visually-hidden">Carregando...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else if (books.Data.Count == 0)
+                {
+                    <tr>
+                        <td colspan="7">
+                            <div class="text-center">
+                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                           colors="primary:#405189,secondary:#0ab39c"
+                                           style="width:75px;height:75px"></lord-icon>
+                                <h5 class="mt-2">Desculpe! Nenhum registro encontrado!</h5>
+                                <p class="text-muted">Não encontramos nenhum livro cadastrado...</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var book in books.Data)
+                    {
+                        <tr class="">
+                            <td class="d-flex justify-content-center">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-sm">
+                                        <img src="@book.ImageUrl" alt="@book.Title" class="d-block" style="height:100%">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @book.Title
+                            </td>
+                            <td>
+                                @book.Author
+                            </td>
+                            <td>
+                                @book.PublicationYear
+                            </td>
+                            <td>
+                                @book.ISBN
+                            </td>
+                            <td>
+                                @if (@book.Status == "Available")
+                                {
+                                    <span class="badge bg-success">Disponível</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Alugado</span>
+                                }
+                            </td>
+                            <td class="gap-2">
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#bookModal" @onclick="() => EditBook(book)">
+                                    <i
+                                        class="ri-pencil-fill"></i> Editar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<BookModal book="Book" ChangedData="ChangedData"></BookModal>
+
+@code {
+    private BookViewModel? Book { get; set; } = new BookViewModel();
+    private ResultViewModel<List<BookViewModel>>? books;
+    private string SearchWord = string.Empty;
+    private bool isLoading = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        books = await BookService.GetAllBooks(SearchWord);
+    }
+
+    private void InitializeBook()
+    {
+        Book = new BookViewModel();
+    }
+
+    private async Task Search()
+    {
+        await LoadData();
+    }
+    
+    private void EditBook(BookViewModel book)
+    {
+        Book = book;
+    }
+
+    private async void ChangedData()
+    {
+        await LoadData();
+        StateHasChanged();
+    }
+}
