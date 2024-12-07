@@ -1,0 +1,51 @@
+@page "/books"
+@using LibraryManager.Site.Models
+@using LibraryManager.Site.Services.Interfaces
+@inject IBookService BookService
+
+<h3>BookList</h3>
+
+@if (Books == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"> <!-- Ajuste da grid -->
+        @foreach (var book in Books)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="@book.ImageUrl" alt="@book.Title" class="card-img-top" style="object-fit: cover;"/>
+                    <div class="card-body">
+                        <h4 class="card-title mb-2">@book.Title</h4>
+                        <p><strong>Author:</strong> @book.Author</p>
+                        <p><strong>Status:</strong> @book.Status</p>
+                    </div>
+                    <div class="text-end">
+                        <a href="@book.Id/book-details" class="btn btn-primary m-3">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<BookViewModel>? Books;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await BookService.GetAllBooks();
+
+        if (result.IsSuccess)
+        {
+            Books = result.Data;
+        }
+        else
+        {
+            Console.WriteLine(result.ErrorMessage);
+        }
+    }
+
+}
