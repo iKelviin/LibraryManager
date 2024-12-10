@@ -13,10 +13,11 @@ Bem-vindo ao **LibraryManager**, um sistema de gerenciamento de bibliotecas dese
 ## Tecnologias Utilizadas
 
 - **.NET 9**
-- **ASP.NET Core**
-- **CQRS (Command Query Responsibility Segregation)**: Separação de comandos (escrita) e consultas (leitura).
-- **Fluent Validation**: Validação fluente para entradas de dados (usuários e livros).
-- **Entity Framework Core**: ORM para comunicação com o banco de dados.
+- **ASP.NET Core**  
+- **Blazor WebAssembly**: Interface moderna para consumir a API.  
+- **CQRS (Command Query Responsibility Segregation)**: Separação de comandos (escrita) e consultas (leitura).  
+- **Fluent Validation**: Validação fluente para entradas de dados (usuários e livros).  
+- **Entity Framework Core**: ORM para comunicação com o banco de dados.  
 
 ## Estrutura do Projeto
 
@@ -33,6 +34,17 @@ Antes de começar, você vai precisar ter instalado:
 - [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [JetBrains Rider](https://www.jetbrains.com/rider/) (ou outra IDE de sua preferência)
 - Banco de dados (exemplo: SQL Server ou SQLite)
+
+## Imagens do Frontend (Blazor)
+
+### Tela de Listagem de Livros  
+![Tela de Listagem de Livros](/Images)
+
+### Tela de Cadastro/Edição de Livros  
+![Tela de Cadastro de Livros](link_para_imagem_cadastro)
+
+### Tela de Listagem de Empréstimos  
+![Tela de Listagem de Empréstimos](link_para_imagem_emprestimos)
   
 ## Como rodar o projeto
 
@@ -77,5 +89,5 @@ Antes de começar, você vai precisar ter instalado:
 
 ## Agradecimentos
 
-Este projeto faz parte da minha jornada de aprendizado em ASP.NET Core e .NET 9. Um agradecimento especial ao professor Luis Felipe e à equipe da **Next Wave Education** pela mentoria.
+Este projeto faz parte da minha jornada de aprendizado em ASP.NET Core, .NET 9 e Blazor. Um agradecimento especial ao professor Luis Felipe e à equipe da **Next Wave Education** pela mentoria.
 
