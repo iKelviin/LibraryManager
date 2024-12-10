@@ -33,18 +33,21 @@ Antes de começar, você vai precisar ter instalado:
 
 - [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [JetBrains Rider](https://www.jetbrains.com/rider/) (ou outra IDE de sua preferência)
-- Banco de dados (exemplo: SQL Server ou SQLite)
+- Banco de dados: SQL Server
 
 ## Imagens do Frontend (Blazor)
 
+### Tela de Listagem dos Cards dos Livros
+![Tela de Listagem de Livros](/images/Site/books-card.png)
+
 ### Tela de Listagem de Livros  
-![Tela de Listagem de Livros](/Images)
+![Tela de Listagem de Livros](/images/Site/book-list.png)
 
 ### Tela de Cadastro/Edição de Livros  
-![Tela de Cadastro de Livros](link_para_imagem_cadastro)
+![Tela de Cadastro de Livros](/images/Site/book-edit.png)
 
-### Tela de Listagem de Empréstimos  
-![Tela de Listagem de Empréstimos](link_para_imagem_emprestimos)
+### Tela de Detalhes do Livro
+![Tela de Listagem de Empréstimos](/images/Site/book-detail.png)
   
 ## Como rodar o projeto
 
@@ -83,7 +86,7 @@ Antes de começar, você vai precisar ter instalado:
 
 - Implementação de autenticação e autorização.
 - Testes unitários e de integração.
-- Criação de um frontend utilizando **Blazor** para consumir a API.
+- Melhorias na interface
 
 ---
 
