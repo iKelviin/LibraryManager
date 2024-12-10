@@ -6,5 +6,7 @@ public interface IBookService
 {
     Task<ResultViewModel<List<BookViewModel>>> GetAllBooks(string? searchWord = null);
     Task<ResultViewModel<BookViewModel>> GetBookById(Guid id);
-    Task<ResultViewModel<Guid>> Add(BookViewModel book);
+    Task<ResultViewModel<Guid>> Add(BookCreateModel book);
+    Task<ResultViewModel> Update(BookUpdateModel book);
+    Task<ResultViewModel> Delete(Guid id);
 }

@@ -1,18 +1,30 @@
 namespace LibraryManager.Site.Models;
 
-public class ResultViewModel<T>
+public class ResultViewModel
 {
-    private ResultViewModel(T? data, bool isSuccess, string? errorMessage)
+    public bool IsSucces { get; private set; }
+    public string Message { get; private set; }
+
+    public ResultViewModel(bool isSucces = true, string message = "")
+    {
+        IsSucces = isSucces;
+        Message = message;
+    }
+
+    public static ResultViewModel Success() => new();
+    public static ResultViewModel Error(string message) => new(false, message);
+}
+
+public class ResultViewModel<T> : ResultViewModel
+{
+    public T? Data { get; private set; }
+
+    public ResultViewModel(T? data, bool isSucces = true, string message = "")
+        : base(isSucces, message)
     {
         Data = data;
-        IsSuccess = isSuccess;
-        ErrorMessage = errorMessage;
     }
-    
-    public bool IsSuccess { get; private set; }
-    public T? Data { get; private set; }
-    public string? ErrorMessage { get; private set; }
 
-    public static ResultViewModel<T> Success(T data) => new(data, true, null);
-    public static ResultViewModel<T> Error(string errorMessage) => new(default, false, errorMessage);
+    public static ResultViewModel<T> Success(T data) => new(data);
+    public static ResultViewModel<T> Error(string message) => new(default, false, message);
 }

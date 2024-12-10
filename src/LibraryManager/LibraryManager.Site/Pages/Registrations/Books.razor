@@ -1,13 +1,15 @@
 @page "/registration/books"
 @using LibraryManager.Site.Models
 @using LibraryManager.Site.Services.Interfaces
+@using LibraryManager.Site.Shared
 @inject IBookService BookService
+@inject IJSRuntime JSRuntime
 
 <div class="card">
     <div class="card-header align-items-center d-flex">
         <h4 class="card-title mb-0 flex-grow-1">Lista de Livros Cadastrados</h4>
         <div class="flex-shrink-0">
-            <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#produtoModal"
+            <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#bookModal"
                     @onclick="(() => InitializeBook())">Cadastrar
             </button>
         </div>
@@ -39,7 +41,7 @@
                 </thead>
 
                 <tbody>
-                @if (books?.Data == null)
+                @if (isLoading)
                 {
                     <tr>
                         <td colspan="7">
@@ -51,7 +53,7 @@
                         </td>
                     </tr>
                 }
-                else if (books.Data.Count == 0)
+                else if (books.Count == 0)
                 {
                     <tr>
                         <td colspan="7">
@@ -67,7 +69,7 @@
                 }
                 else
                 {
-                    @foreach (var book in books.Data)
+                    @foreach (var book in books)
                     {
                         <tr class="">
                             <td class="d-flex justify-content-center">
@@ -100,11 +102,8 @@
                                 }
                             </td>
                             <td class="gap-2">
-                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#bookModal" @onclick="() => EditBook(book)">
-                                    <i
-                                        class="ri-pencil-fill"></i> Editar
-                                </button>
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"data-bs-target="#bookModal" @onclick="() => EditBook(book)"><i class="ri-pencil-fill"></i> Editar</button>
+                                <button type="button" class="btn btn-sm btn-danger" @onclick="()=> DeleteBook(book.Id)"><i class="ri-eye-fill"></i><span class="ms-1">Excluir</span></button>
                             </td>
                         </tr>
                     }
@@ -119,14 +118,20 @@
 
 @code {
     private BookViewModel? Book { get; set; } = new BookViewModel();
-    private ResultViewModel<List<BookViewModel>>? books;
+    private List<BookViewModel>? books;
     private string SearchWord = string.Empty;
     private bool isLoading = true;
+    [Inject]
+    public SweetAlert sweetAlert { get; set; }
+
+    [Inject]
+    public Toastify toast { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            await JSRuntime.InvokeVoidAsync("carregarSweetAlert");
             await LoadData();
             StateHasChanged();
         }
@@ -134,7 +139,14 @@
 
     private async Task LoadData()
     {
-        books = await BookService.GetAllBooks(SearchWord);
+        var result = await BookService.GetAllBooks(SearchWord);
+        if (!result.IsSucces)
+        {
+            await toast.ShowError("Erro ao listar os livros!");
+        }
+
+        books = result.Data!;
+        isLoading = false;
     }
 
     private void InitializeBook()
@@ -150,6 +162,24 @@
     private void EditBook(BookViewModel book)
     {
         Book = book;
+    }
+
+    private async Task DeleteBook(Guid id)
+    {
+        var result = await sweetAlert.ShowConfirmDelete();
+        if (result.Value)
+        {
+            var response = await BookService.Delete(id);
+            if (!response.IsSucces)
+            {
+                await toast.ShowError("Erro ao deletar o livro!");
+            }
+
+            await sweetAlert.ShowDeleteSucess();
+            await LoadData();
+            StateHasChanged();
+        }
+        
     }
 
     private async void ChangedData()

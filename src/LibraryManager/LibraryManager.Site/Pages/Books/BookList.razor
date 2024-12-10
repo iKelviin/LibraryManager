@@ -15,23 +15,6 @@ else
         @foreach (var book in Books)
         {
             <div class="col">
-                <!--div class="card shadow p-3 mb-5 rounded" style="height: 100%;">
-                    <div class="card-img-top p-2 text-center">
-                        <img class="border-1" src="@book.ImageUrl" alt="@book.Title" style="max-height: 250px">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text">
-                            <h4 class="card-title mb-2 text-overflow-ellipsis" style="overflow: hidden;">@book.Title</h4>
-                            <h6 class="card-subtitle font-14 text-muted mt-3">@book.Author</h6>
-                        </div>
-                        <div class="card-footer mt-5" style="margin-bottom:auto;">
-                            <a href="@book.Id/book-details" class="card-link link-secondary">Detalhes<i
-                                                                                                         class="ri-arrow-right-s-line ms-1 align-middle lh-1"></i></a>
-                            <a class="card-link link-success">@book.Status<i
-                                                                              class="ri-bookmark-line align-middle ms-1 lh-1"></i></a>
-                        </div>
-                    </div>
-                </div-->
 
                 <div class="card" style="width: 18rem;height: 100%">
                     <div class="card-img-top p-2 text-center">
@@ -65,13 +48,13 @@ else
     {
         var result = await BookService.GetAllBooks();
 
-        if (result.IsSuccess)
+        if (result.IsSucces)
         {
             Books = result.Data;
         }
         else
         {
-            Console.WriteLine(result.ErrorMessage);
+            Console.WriteLine(result.Message);
         }
     }
 

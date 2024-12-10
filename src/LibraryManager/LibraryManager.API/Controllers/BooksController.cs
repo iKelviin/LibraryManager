@@ -42,7 +42,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
         
         if(!result.IsSuccess) return BadRequest(result.Message);
 
-        return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
+        return Ok(result.Data);
     }
 
     [HttpPut("{id:guid}")]

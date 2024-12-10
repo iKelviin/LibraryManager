@@ -4,7 +4,9 @@ namespace LibraryManager.Site.Repositories.Interfaces;
 
 public interface IBookRepository
 {
-    Task <List<BookViewModel>?> GetAllBooks();
-    Task<BookViewModel?> GetBookById(Guid id);
-    Task<Guid> Add(BookViewModel book);
+    Task <ResultViewModel<List<BookViewModel>>> GetAllBooks();
+    Task<ResultViewModel<BookViewModel>> GetBookById(Guid id);
+    Task<ResultViewModel<Guid>> Add(BookCreateModel book);
+    Task<ResultViewModel> Update(BookUpdateModel book);
+    Task<ResultViewModel> Delete(Guid id);
 }

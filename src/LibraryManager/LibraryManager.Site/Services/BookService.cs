@@ -15,9 +15,10 @@ public class BookService : IBookService
 
     public async Task<ResultViewModel<List<BookViewModel>>> GetAllBooks(string searchWord)
     {
-       var books = await _repository.GetAllBooks();
-       if (books is null) return ResultViewModel<List<BookViewModel>>.Error("Books not found.");
+       var result = await _repository.GetAllBooks();
+       if(!result.IsSucces) return ResultViewModel<List<BookViewModel>>.Error(result.Message);
 
+       var books = result.Data!;
        if (!string.IsNullOrEmpty(searchWord))
        {
            books = books.FindAll(x=> x.Title.ToLower().Contains(searchWord.ToLower()) ||
@@ -29,15 +30,21 @@ public class BookService : IBookService
 
     public async Task<ResultViewModel<BookViewModel>> GetBookById(Guid id)
     {
-        var book = await _repository.GetBookById(id);
-        if (book is null) return ResultViewModel<BookViewModel>.Error("Book not found.");
-        return ResultViewModel<BookViewModel>.Success(book);
+        return await _repository.GetBookById(id);
     }
 
-    public async Task<ResultViewModel<Guid>> Add(BookViewModel book)
+    public async Task<ResultViewModel<Guid>> Add(BookCreateModel book)
     {
-        var guid = await _repository.Add(book);
-        if (guid == Guid.Empty) return ResultViewModel<Guid>.Error("Error while adding book.");
-        return ResultViewModel<Guid>.Success(guid);
+        return await _repository.Add(book);
+    }
+
+    public async Task<ResultViewModel> Update(BookUpdateModel book)
+    {
+        return await _repository.Update(book); 
+    }
+
+    public async Task<ResultViewModel> Delete(Guid id)
+    {
+        return await _repository.Delete(id);
     }
 }

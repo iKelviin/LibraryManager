@@ -1,10 +1,12 @@
 @using LibraryManager.Site.Models
 @using LibraryManager.Site.Services.Interfaces
+@using LibraryManager.Site.Shared
 @inject IBookService BookService
 @inject IJSRuntime JSRuntime
 
 
-<div id="bookModal" role="dialog" class="modal zoomIn" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="bookModal" role="dialog" class="modal zoomIn" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,38 +18,59 @@
                 {
                     <h5 class="modal-title" id="myModalLabel"> Editar Livro</h5>
                 }
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <EditForm Model="@book" OnValidSubmit="@Submit">
-                    <DataAnnotationsValidator />
+                <EditForm Model="@book" OnValidSubmit="@Submit" class="needs-validation" novalidate>
+                    <DataAnnotationsValidator/>
+                    <div class="row mb-2">
+                        <div class="text-center">
+                            <div class="d-inline-block">
+                                <div class="avatar-lg">
+                                    <div class="avatar-title bg-light rounded">
+                                        <img src="@book.ImageUrl" id="product-img" class="avatar-md h-auto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="image" class="form-label">Imagem Url</label>
+                                <InputText @bind-Value="book.ImageUrl" type="text" autocomplete="not"
+                                           class="form-control" id="image" required/>
+                                <ValidationMessage For="() => book.ImageUrl"/>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-2">
                         <div>
                             <label for="title" class="form-label">Nome do Livro</label>
-                            <input type="hidden" @bind-value="@book.Id" />
-                            <InputText @bind-Value="book.Title" type="text" autocomplete="not" class="form-control" id="title" />
-                            <ValidationMessage For="() => book.Title" />
+                            <input type="hidden" @bind-value="@book.Id"/>
+                            <InputText @bind-Value="book.Title" type="text" autocomplete="not" class="form-control"
+                                       id="title" required/>
+                            <ValidationMessage For="() => book.Title"/>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div>
                             <label for="autor" class="form-label">Autor do Livro</label>
-                            <InputText @bind-Value="book.Author" type="text" autocomplete="not" class="form-control" id="autor" />
-                            <ValidationMessage For="() => book.Author" />
+                            <InputText @bind-Value="book.Author" type="text" autocomplete="not" class="form-control"
+                                       id="autor" required/>
+                            <ValidationMessage For="() => book.Author"/>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div>
                             <label for="publicationYear" class="form-label">Ano de Publicação</label>
-                            <InputNumber  @bind-Value="book.PublicationYear" type="number" autocomplete="not" class="form-control" id="publicationYear" />
-                            <ValidationMessage For="() => book.PublicationYear" />
+                            <InputNumber @bind-Value="book.PublicationYear" type="number" autocomplete="not"
+                                         class="form-control" id="publicationYear" required/>
+                            <ValidationMessage For="() => book.PublicationYear"/>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div>
                             <label for="isbn" class="form-label">ISBN</label>
-                            <InputText  @bind-Value="book.ISBN" type="text" autocomplete="not" class="form-control" id="isbn" />
-                            <ValidationMessage For="() => book.ISBN" />
+                            <InputText @bind-Value="book.ISBN" type="text" autocomplete="not" class="form-control"
+                                       id="isbn" required/>
+                            <ValidationMessage For="() => book.ISBN"/>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -64,10 +87,10 @@
 </div>
 
 @code {
-    [Parameter]
-    public BookViewModel book { get; set; }
-    [Parameter]
-    public Action ChangedData { get; set; }
+    [Parameter] public BookViewModel book { get; set; }
+    [Parameter] public Action ChangedData { get; set; }
+    [Inject]
+    public Toastify toast { get; set; }
 
     private async Task CloseModal()
     {
@@ -76,9 +99,36 @@
 
     private async Task Submit()
     {
-        await BookService.Add(book);
+        if (book.Id == Guid.Empty)
+        {
+            BookCreateModel newBook = new BookCreateModel(book.Title, book.Author, book.ImageUrl, book.PublicationYear, book.ISBN);
+            var result = await BookService.Add(newBook);
+
+            if (!result.IsSucces)
+            {
+                await toast.ShowError("Erro interno no servidor!");
+            }
+            else
+            {
+                await toast.ShowSucess("Produto inserido com sucesso!");
+            }
+        }
+        else
+        {
+            BookUpdateModel updateBook = new BookUpdateModel(book.Id, book.Title, book.Author, book.ImageUrl, book.PublicationYear, book.ISBN);
+            var result = await BookService.Update(updateBook);
+            
+            if (!result.IsSucces)
+            {
+                await toast.ShowError("Erro interno no servidor!");
+            }
+            else
+            {
+                await toast.ShowSucess("Produto atualizado com sucesso!");
+            }
+        }
         await CloseModal();
         ChangedData?.Invoke();
     }
-    
+
 }
