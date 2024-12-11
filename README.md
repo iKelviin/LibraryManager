@@ -1,6 +1,6 @@
 # LibraryManager 📚🚀
 
-Bem-vindo ao **LibraryManager**, um sistema de gerenciamento de bibliotecas desenvolvido em ASP.NET Core, utilizando padrões de arquitetura avançados para fornecer uma solução robusta para empréstimos e gerenciamento de livros.
+Bem-vindo ao **LibraryManager**, um sistema de gerenciamento de bibliotecas desenvolvido em ASP.NET Core e Blazor WebAssembly, utilizando padrões de arquitetura avançados para fornecer uma solução robusta para empréstimos e gerenciamento de livros.
 
 ## Funcionalidades Implementadas
 
