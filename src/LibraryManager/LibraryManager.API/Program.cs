@@ -1,4 +1,5 @@
 using LibraryManager.Application;
+using LibraryManager.Application.Filters;
 using LibraryManager.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -18,7 +19,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -31,7 +32,17 @@ app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(options =>
+    {
+        options.Authentication = new ScalarAuthenticationOptions()
+        {
+            PreferredSecurityScheme = "ApiKey",
+            ApiKey = new ApiKeyOptions()
+            {
+                Token = app.Configuration["Authentication:ApiKey"]
+            }
+        };
+    });
 }
 
 app.UseHttpsRedirection();

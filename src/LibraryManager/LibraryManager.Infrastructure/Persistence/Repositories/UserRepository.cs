@@ -39,4 +39,14 @@ public class UserRepository : IUserRepository
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<User?> GetUserByEmailAndPassword(string email, string password)
+    {
+        return await _context.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+    }
+
+    public async Task<bool> Exists(string email)
+    {
+        return await _context.Users.AnyAsync(u => u.Email == email);
+    }
 }

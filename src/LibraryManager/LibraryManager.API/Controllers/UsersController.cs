@@ -1,5 +1,6 @@
 using LibraryManager.Application.Commands.UserCommands.DeleteUser;
 using LibraryManager.Application.Commands.UserCommands.InsertUser;
+using LibraryManager.Application.Commands.UserCommands.Login;
 using LibraryManager.Application.Commands.UserCommands.UpdateUser;
 using LibraryManager.Application.Queries.UserQueries.GetAllUsers;
 using LibraryManager.Application.Queries.UserQueries.GetByIdUser;
@@ -35,7 +36,6 @@ public class UsersController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(InsertUserCommand command)
     {
-       
         var result = await mediator.Send(command);
         
         if(!result.IsSuccess) return BadRequest(result.Message);
@@ -61,5 +61,15 @@ public class UsersController(IMediator mediator) : ControllerBase
         if(!result.IsSuccess) return BadRequest(result.Message);
         
         return Ok();
+    }
+
+    [HttpPut("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+    {
+        var result = await mediator.Send(command);
+        
+        if(!result.IsSuccess) return BadRequest(result.Message);
+        
+        return Ok(result.Data);
     }
 }
