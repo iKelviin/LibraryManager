@@ -7,12 +7,14 @@ using LibraryManager.Application.Queries.BookQueries.GetAllBooks;
 using LibraryManager.Application.Queries.BookQueries.GetByIdBook;
 using LibraryManager.Core.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.API.Controllers;
 
 [ApiController]
 [Route("api/books")]
+[Authorize]
 public class BooksController(IBookRepository repository,IMediator mediator) : ControllerBase
 {
     [HttpGet]

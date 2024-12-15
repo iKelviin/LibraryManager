@@ -5,12 +5,14 @@ using LibraryManager.Application.Commands.UserCommands.UpdateUser;
 using LibraryManager.Application.Queries.UserQueries.GetAllUsers;
 using LibraryManager.Application.Queries.UserQueries.GetByIdUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UsersController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
@@ -34,6 +36,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Post(InsertUserCommand command)
     {
         var result = await mediator.Send(command);
@@ -64,6 +67,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {
         var result = await mediator.Send(command);
