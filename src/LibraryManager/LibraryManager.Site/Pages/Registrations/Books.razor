@@ -1,9 +1,8 @@
 @page "/registration/books"
-@using LibraryManager.Site.Models
-@using LibraryManager.Site.Services.Interfaces
-@using LibraryManager.Site.Shared
+
 @inject IBookService BookService
 @inject IJSRuntime JSRuntime
+@attribute [Authorize(Roles="Admin")]
 
 <div class="card">
     <div class="card-header align-items-center d-flex">
@@ -96,14 +95,30 @@
                                 {
                                     <span class="badge bg-success">Disponível</span>
                                 }
+                                else if(@book.Status == "Archived")
+                                {
+                                    <span class="badge bg-warning">Arquivado</span>
+                                }
                                 else
                                 {
                                     <span class="badge bg-danger">Alugado</span>
                                 }
                             </td>
-                            <td class="gap-2">
+                            <td class="d-flex gap-1">
                                 <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"data-bs-target="#bookModal" @onclick="() => EditBook(book)"><i class="ri-pencil-fill"></i> Editar</button>
-                                <button type="button" class="btn btn-sm btn-danger" @onclick="()=> DeleteBook(book.Id)"><i class="ri-eye-fill"></i><span class="ms-1">Excluir</span></button>
+                                <button type="button" class="btn btn-sm btn-danger" @onclick="()=> DeleteBook(book.Id)"><i class="ri-eye-fill"></i><span >Excluir</span></button>
+                                @if (book.Status == "Available")
+                                {
+                                    <button type="button" class="btn btn-sm btn-warning" @onclick="()=> ArchiveBook(book.Id)"><i class="ri-eye-fill"></i><span >Arquivar</span></button>
+                                }
+                                else if(book.Status == "Archived")
+                                {
+                                    <button type="button" class="btn btn-sm btn-success" @onclick="()=> AvailableBook(book.Id)"><i class="ri-eye-fill"></i><span >Disponibilizar</span></button>
+                                }
+                                else if(book.Status == "Borrowed")
+                                {
+                                    <button type="button" class="btn btn-sm btn-success" disabled><i class="ri-eye-fill"></i><span >Disponibilizar</span></button>
+                                }
                             </td>
                         </tr>
                     }
@@ -176,6 +191,42 @@
             }
 
             await sweetAlert.ShowDeleteSucess();
+            await LoadData();
+            StateHasChanged();
+        }
+        
+    }
+    
+    private async Task AvailableBook(Guid id)
+    {
+        var result = await sweetAlert.ShowConfirmChanges("Disponível");
+        if (result.Value)
+        {
+            var response = await BookService.Available(id);
+            if (!response.IsSucces)
+            {
+                await toast.ShowError("Erro ao disponibilizar o livro!");
+            }
+
+            await sweetAlert.ShowAvailableSucess();
+            await LoadData();
+            StateHasChanged();
+        }
+        
+    }
+    
+    private async Task ArchiveBook(Guid id)
+    {
+        var result = await sweetAlert.ShowConfirmChanges("Arquivado");
+        if (result.Value)
+        {
+            var response = await BookService.Archive(id);
+            if (!response.IsSucces)
+            {
+                await toast.ShowError("Erro ao arquivar o livro!");
+            }
+
+            await sweetAlert.ShowArchiveSucess();
             await LoadData();
             StateHasChanged();
         }

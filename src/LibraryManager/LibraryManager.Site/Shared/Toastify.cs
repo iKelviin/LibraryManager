@@ -22,4 +22,9 @@ public class Toastify
     {
         await _JSRuntime.InvokeVoidAsync("showToastError", message);
     }
+
+    public async Task ShowInfo(string message)
+    {
+        await _JSRuntime.InvokeVoidAsync("showToastInformation", message);
+    }
 }

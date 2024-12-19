@@ -38,6 +38,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Post(InsertBookCommand command)
     {
         var result = await mediator.Send(command);
@@ -48,6 +49,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(Guid id, UpdateBookCommand command)
     {
        var result = await mediator.Send(command);
@@ -58,6 +60,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteBookCommand(id));
@@ -68,6 +71,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
     }
 
     [HttpPost("{id:guid}/archive")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Archive(Guid id)
     {
         var result = await mediator.Send(new ArchiveBookCommand(id));
@@ -78,6 +82,7 @@ public class BooksController(IBookRepository repository,IMediator mediator) : Co
     }
     
     [HttpPost("{id:guid}/available")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Available(Guid id)
     {
         var result = await mediator.Send(new AvailableBookCommand(id));

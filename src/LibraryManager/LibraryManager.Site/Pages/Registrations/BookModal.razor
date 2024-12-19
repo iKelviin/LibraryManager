@@ -3,6 +3,7 @@
 @using LibraryManager.Site.Shared
 @inject IBookService BookService
 @inject IJSRuntime JSRuntime
+@attribute [Authorize(Roles="Admin")]
 
 
 <div id="bookModal" role="dialog" class="modal zoomIn" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"

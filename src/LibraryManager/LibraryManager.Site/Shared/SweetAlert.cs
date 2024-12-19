@@ -19,8 +19,27 @@ public class SweetAlert
         return await _JSRuntime.InvokeAsync<ConfirmResult>("ConfirmDelete");
     }
 
+    public async Task<ConfirmResult> ShowConfirmChanges(string changeData)
+    {
+        return await _JSRuntime.InvokeAsync<ConfirmResult>("ConfirmChange", changeData);
+    }
+
     public async Task ShowSaveSucess()
     {
         await _JSRuntime.InvokeVoidAsync("SaveSuccess");
+    }
+
+    public async Task ShowArchiveSucess()
+    {
+        await _JSRuntime.InvokeVoidAsync("ArchiveSuccess");
+    }
+    public async Task ShowAvailableSucess()
+    {
+        await _JSRuntime.InvokeVoidAsync("AvailableSuccess");
+    }
+
+    public async Task ShowReturnSucess()
+    {
+        await _JSRuntime.InvokeVoidAsync("RetunBookSuccess");
     }
 }

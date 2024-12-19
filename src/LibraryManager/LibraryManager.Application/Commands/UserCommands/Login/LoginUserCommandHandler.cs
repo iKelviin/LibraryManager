@@ -28,8 +28,8 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, ResultV
         if (user == null) return ResultViewModel<LoginUserViewModel>.Error("User not found.");
 
         // Se existir, gera o token usando os dados do usuario.
-        var token = _authService.GenerateJwtToken(user.Email, user.Role);
-        var model = new LoginUserViewModel(user.Email, token);
+        var token = _authService.GenerateJwtToken(user.Id,user.Name,user.Email, user.Role);
+        var model = new LoginUserViewModel(user.Name,user.Email,token);
         
         return ResultViewModel<LoginUserViewModel>.Success(model);
     }

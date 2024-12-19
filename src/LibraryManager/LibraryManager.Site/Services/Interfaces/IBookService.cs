@@ -9,4 +9,6 @@ public interface IBookService
     Task<ResultViewModel<Guid>> Add(BookCreateModel book);
     Task<ResultViewModel> Update(BookUpdateModel book);
     Task<ResultViewModel> Delete(Guid id);
+    Task<ResultViewModel> Available(Guid id);
+    Task<ResultViewModel> Archive(Guid id);
 }

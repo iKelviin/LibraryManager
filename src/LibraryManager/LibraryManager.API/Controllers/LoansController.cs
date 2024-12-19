@@ -4,12 +4,14 @@ using LibraryManager.Application.Queries.LoanQueries.GetAllLoans;
 using LibraryManager.Application.Queries.LoanQueries.GetByIdLoan;
 using LibraryManager.Application.Queries.LoanQueries.GetByIdUserLoans;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManager.API.Controllers;
 
 [ApiController]
 [Route("api/loans")]
+[Authorize]
 public class LoansController(IMediator mediator) : ControllerBase
 {
     [HttpGet]

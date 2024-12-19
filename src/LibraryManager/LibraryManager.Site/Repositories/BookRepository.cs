@@ -9,9 +9,9 @@ public class BookRepository : IBookRepository
     private readonly HttpClient _httpClient;
     private const string BaseUrl = "https://localhost:7275/api";
 
-    public BookRepository(HttpClient httpClient)
+    public BookRepository(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("API");
     }
 
     public async Task<ResultViewModel<List<BookViewModel>>> GetAllBooks()
@@ -98,6 +98,42 @@ public class BookRepository : IBookRepository
         try
         {
             var response = await _httpClient.DeleteAsync($"{BaseUrl}/books/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return ResultViewModel.Error(error);
+            }
+
+            return ResultViewModel.Success();
+        }
+        catch (Exception e)
+        {
+            return ResultViewModel.Error(e.Message);
+        }
+    }
+    public async Task<ResultViewModel> Archive(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"{BaseUrl}/books/{id}/archive", null);
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return ResultViewModel.Error(error);
+            }
+
+            return ResultViewModel.Success();
+        }
+        catch (Exception e)
+        {
+            return ResultViewModel.Error(e.Message);
+        }
+    }
+    public async Task<ResultViewModel> Available(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"{BaseUrl}/books/{id}/available",null);
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();

@@ -2,6 +2,7 @@
 @using LibraryManager.Site.Models
 @using LibraryManager.Site.Services.Interfaces
 @inject IBookService BookService
+@attribute [Authorize]
 
 <h3>Detalhes</h3>
 
@@ -36,9 +37,13 @@ else
                         {
                             <a class="card-link link-success"> Disponível<i class="ri-checkbox-circle-fill align-middle ms-1 lh-1"></i></a>
                         }
-                        else
+                        else if(@book.Status == "Borrowed")
                         {
                             <a class="card-link link-danger"> Alugado<i class="ri-close-circle-fill align-middle ms-1 lh-1"></i></a>
+                        }
+                        else if(@book.Status == "Archived")
+                        {
+                            <a class="card-link link-warning"> Arquivado<i class="ri-information-fill align-middle ms-1 lh-1"></i></a>
                         }
                         </h3>
                     </div>

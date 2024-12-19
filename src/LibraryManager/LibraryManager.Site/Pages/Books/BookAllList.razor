@@ -1,0 +1,104 @@
+@page "/all-books"
+
+@inject IBookService BookService
+@attribute [Authorize]
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header birder-0">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title mb-0 flex-grow-1">Encontre seu Livro</h5>
+                    <div>
+                        <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample"><i
+                                class="ri-filter-2-line align-bottom"></i> Filtros</a>
+                    </div>
+                </div>
+                <div class="collaps collapse show" id="collapseExample" style="">
+                    <div class="row p-2">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar..." @bind="SearchWord">
+                                <button class="btn btn-outline-success material-shadow-none" type="button" @onclick="Search">
+                                    Pesquisar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="d-flex align-items-center mb-4">
+            <div class="flex-grow-1">
+                <p class="text-muted fs-14 mb-0">Resultados: 87</p>
+            </div>
+            <div class="flex-shrink-0">
+                <div class="dropdown">
+                    <a class="text-muted fs-14 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Status
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="">
+                        <li><a class="dropdown-item" href="#">Disponíveis</a></li>
+                        <li><a class="dropdown-item" href="#">Alugados</a></li>
+                        <li><a class="dropdown-item" href="#">Arquivados</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1" id="explorecard-list">
+    @if (Books is null)
+    {
+        <div class="py-4 text-center" id="noresult" style="display: none;">
+            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
+            <h5 class="mt-4">Desculpe! Nenhum Livro Encontrado</h5>
+        </div>
+    }
+    else
+    {
+        foreach (var book in Books)
+        {
+            <div class="col list-element">
+                <BookCardComponent Book="book"/>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private List<BookViewModel>? Books;
+    [Inject] public Toastify toast { get; set; }
+    private string SearchWord = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+    }
+
+
+    private async Task LoadData()
+    {
+        var result = await BookService.GetAllBooks(SearchWord);
+        if (!result.IsSucces)
+        {
+            await toast.ShowError("Erro ao listar os livros!");
+        }
+
+        Books = result.Data;
+    }
+    
+    private async Task Search()
+    {
+        await LoadData();
+    }
+
+}

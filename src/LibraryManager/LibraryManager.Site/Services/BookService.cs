@@ -47,4 +47,14 @@ public class BookService : IBookService
     {
         return await _repository.Delete(id);
     }
+    
+    public async Task<ResultViewModel> Archive(Guid id)
+    {
+        return await _repository.Archive(id);
+    }
+    
+    public async Task<ResultViewModel> Available(Guid id)
+    {
+        return await _repository.Available(id);
+    }
 }
