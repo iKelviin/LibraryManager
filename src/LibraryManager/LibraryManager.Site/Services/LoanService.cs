@@ -13,6 +13,16 @@ public class LoanService : ILoanService
         _loanRepository = loanRepository;
     }
 
+    public async Task<ResultViewModel<List<LoanViewModel>>> GetAllLoans(string searchWord)
+    {
+        var result = await _loanRepository.GetAllLoans();
+        if(!result.IsSucces) return ResultViewModel<List<LoanViewModel>>.Error(result.Message);
+
+        var loans = result.Data!;
+       
+        return ResultViewModel<List<LoanViewModel>>.Success(loans);
+    }
+
     public async Task<ResultViewModel<List<LoanViewModel>>> GetAllLoansByUser(Guid idUser, string searchWord)
     {
         var result = await _loanRepository.GetAllLoansByUser(idUser);
@@ -31,5 +41,10 @@ public class LoanService : ILoanService
     public async Task<ResultViewModel<string>> ReturnBook(Guid idLoan)
     {
         return await _loanRepository.ReturnBook(idLoan);
+    }
+
+    public async Task<ResultViewModel<Guid>> LoanBook(LoanCreateModel model)
+    {
+        return await _loanRepository.LoanBook(model);
     }
 }

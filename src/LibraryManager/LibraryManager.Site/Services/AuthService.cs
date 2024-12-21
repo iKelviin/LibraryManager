@@ -27,6 +27,11 @@ public class AuthService : IAuthService
     {
         return await _authRepository.Login(user);
     }
+    
+    public async Task<ResultViewModel<Guid>> Register(UserCreateModel user)
+    {
+        return await _authRepository.Register(user);
+    }
 
     public async Task DeleteTokenFromCookie()
     {

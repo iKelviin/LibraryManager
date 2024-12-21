@@ -32,18 +32,28 @@
     <div class="col-lg-12">
         <div class="d-flex align-items-center mb-4">
             <div class="flex-grow-1">
-                <p class="text-muted fs-14 mb-0">Resultados: 87</p>
+                <p class="text-muted fs-14 mb-0">Resultados: @FilteredBooks.Count</p>
             </div>
             <div class="flex-shrink-0">
                 <div class="dropdown">
                     <a class="text-muted fs-14 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Status
+                        Status: @SelectedStatus
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="">
-                        <li><a class="dropdown-item" href="#">Disponíveis</a></li>
-                        <li><a class="dropdown-item" href="#">Alugados</a></li>
-                        <li><a class="dropdown-item" href="#">Arquivados</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" @onclick="() => FilterByStatus(null)">Todos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" 
+                               @onclick='() => FilterByStatus("Available")'>Disponíveis</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" @onclick='() => FilterByStatus("Borrowed")'>Alugados</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" @onclick='() => FilterByStatus("Archived")'>Arquivados</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -51,8 +61,8 @@
     </div>
 </div>
 
-<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1" id="explorecard-list">
-    @if (Books is null)
+<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1">
+    @if (FilteredBooks is null || !FilteredBooks.Any())
     {
         <div class="py-4 text-center" id="noresult" style="display: none;">
             <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px"></lord-icon>
@@ -61,9 +71,9 @@
     }
     else
     {
-        foreach (var book in Books)
+        foreach (var book in FilteredBooks)
         {
-            <div class="col list-element">
+            <div class="col list-element mb-5">
                 <BookCardComponent Book="book"/>
             </div>
         }
@@ -72,6 +82,8 @@
 
 @code {
     private List<BookViewModel>? Books;
+    private List<BookViewModel>? FilteredBooks = new List<BookViewModel>();
+    private string SelectedStatus = "Todos";
     [Inject] public Toastify toast { get; set; }
     private string SearchWord = string.Empty;
 
@@ -94,11 +106,27 @@
         }
 
         Books = result.Data;
+        FilterByStatus(null);
     }
     
     private async Task Search()
     {
         await LoadData();
+    }
+    
+    private void FilterByStatus(string? status)
+    {
+        SelectedStatus = status ?? "Todos";
+        if (SelectedStatus == "Todos")
+        {
+            FilteredBooks = Books;
+        }
+        else
+        {
+            FilteredBooks = status == null
+                ? Books // Sem filtro
+                : Books?.Where(b => b.Status == status).ToList();
+        }
     }
 
 }

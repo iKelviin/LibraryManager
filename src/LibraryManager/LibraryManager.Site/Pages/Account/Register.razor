@@ -1,0 +1,133 @@
+@page "/register"
+@using System.ComponentModel.DataAnnotations
+
+@layout Layout.NoAuthLayout
+@inject NavigationManager NavigationManager
+@inject CustomAuthenticationStateProvider Auth
+@inject IAuthService Service
+
+
+<PageTitle>Cadastre-se</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card mt-4 card-bg-fill card-shadow-rounded">
+
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-center  mt-3">
+                    <img src="assets/images/user.png" height="100">
+                </div>
+                <div class="text-center mt-2">
+                    <h5 class="text-primary">Cadastre-se</h5>
+                    <p class="text-muted">Faça o seu cadastro de graça agora!</p>
+                </div>
+                <div class="p-2 mt-4">
+
+                    <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
+                        <DataAnnotationsValidator/>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nome <span class="text-danger">*</span></label>
+                            <InputText @bind-Value="Input.Name" id="username" class="form-control"
+                                       autocomplete="username" aria-required="true" placeholder="Digite seu nome"/>
+                            <ValidationMessage For="() => Input.Name" class="invalid-feedback"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="useremail" class="form-label">E-mail <span class="text-danger">*</span></label>
+                            <InputText @bind-Value="Input.Email" id="useremail" class="form-control"
+                                       autocomplete="username" aria-required="true" placeholder="Digite seu e-mail"/>
+                            <ValidationMessage For="() => Input.Email" class="invalid-feedback"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="password">Senha</label>
+                            <div class="position-relative auth-pass-inputgroup">
+                                <InputText type="password" id="password" @bind-Value="Input.Password"
+                                           class="form-control pe-5 password-input" onpaste="return false"
+                                           autocomplete="new-password" aria-required="true"
+                                           placeholder="Digite sua senha"/>
+                                <button
+                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
+                                    type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                <ValidationMessage For="() => Input.Password" class="invalid-feedback"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="confirm-password">Confirme a Senha</label>
+                            <div class="position-relative auth-pass-inputgroup">
+                                <InputText id="confirm-password" type="password" @bind-Value="Input.ConfirmPassword"
+                                           class="form-control pe-5 password-input" onpaste="return false"
+                                           autocomplete="new-password" aria-required="true"
+                                           placeholder="Confirme sua senha"/>
+                                <button
+                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
+                                    type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                <ValidationMessage For="() => Input.ConfirmPassword" class="invalid-feedback"/>
+
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-success w-100" type="submit">Cadastrar</button>
+                        </div>
+                    </EditForm>
+
+                </div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+
+        <div class="mt-4 text-center">
+            <p class="mb-0">Você já tem uma conta ? <a href="/login"
+                                                       class="fw-semibold text-primary text-decoration-underline">
+                    Acessar </a></p>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm] private InputModel Input { get; set; } = new();
+
+    [Inject] public Toastify toast { get; set; }
+
+    public async Task RegisterUser()
+    {
+        var newUser = new UserCreateModel(Input.Name, Input.Email, Input.Password, "Cliente");
+
+        var result = await Service.Register(newUser);
+        if (!result.IsSucces)
+        {
+            await toast.ShowError(result.Message);
+        }
+        else
+        {
+            await toast.ShowSucess("Cadastro realizado com sucesso!");
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
+    private sealed class InputModel
+    {
+        [Required] [Display(Name = "Name")] public string Name { get; set; } = "";
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; } = "";
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; } = "";
+    }
+
+}

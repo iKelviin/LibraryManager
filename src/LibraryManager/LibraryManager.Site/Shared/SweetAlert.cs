@@ -23,6 +23,20 @@ public class SweetAlert
     {
         return await _JSRuntime.InvokeAsync<ConfirmResult>("ConfirmChange", changeData);
     }
+    
+    public async Task<ConfirmResult> ShowConfirmLoan(string bookTitle)
+    {
+        return await _JSRuntime.InvokeAsync<ConfirmResult>("ConfirmLoanBook", bookTitle);
+    }
+    public async Task<ConfirmResult> ShowConfirmReturnBook(string bookTitle)
+    {
+        return await _JSRuntime.InvokeAsync<ConfirmResult>("ConfirmReturnBook", bookTitle);
+    }
+    
+    public async Task ShowLoanSucess()
+    {
+        await _JSRuntime.InvokeVoidAsync("LoanSuccess");
+    }
 
     public async Task ShowSaveSucess()
     {
@@ -40,6 +54,6 @@ public class SweetAlert
 
     public async Task ShowReturnSucess()
     {
-        await _JSRuntime.InvokeVoidAsync("RetunBookSuccess");
+        await _JSRuntime.InvokeVoidAsync("ReturnBookSuccess");
     }
 }

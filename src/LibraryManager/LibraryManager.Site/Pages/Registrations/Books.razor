@@ -104,9 +104,9 @@
                                     <span class="badge bg-danger">Alugado</span>
                                 }
                             </td>
-                            <td class="d-flex gap-1">
-                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"data-bs-target="#bookModal" @onclick="() => EditBook(book)"><i class="ri-pencil-fill"></i> Editar</button>
-                                <button type="button" class="btn btn-sm btn-danger" @onclick="()=> DeleteBook(book.Id)"><i class="ri-eye-fill"></i><span >Excluir</span></button>
+                            <td class="">
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#bookModal" @onclick="() => EditBook(book)"><i class="ri-pencil-fill"></i> Editar</button>
+                                <button type="button" class="btn btn-sm btn-danger me-1" @onclick="()=> DeleteBook(book.Id)"><i class="ri-eye-fill"></i><span >Excluir</span></button>
                                 @if (book.Status == "Available")
                                 {
                                     <button type="button" class="btn btn-sm btn-warning" @onclick="()=> ArchiveBook(book.Id)"><i class="ri-eye-fill"></i><span >Arquivar</span></button>

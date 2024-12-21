@@ -106,17 +106,15 @@
                                     <span class="badge bg-danger">Atrasado</span>
                                 }
                             </td>
-                            <td class="d-flex gap-1 align-items-center justify-content-center">
+                            <td class="">
                                 @if (!loan.BookReturned)
                                 {
                                     <button type="button" class="btn btn-sm btn-info"
-                                            @onclick="() => ReturnBook(loan.Id)"><i
-                                            class="ri-contacts-book-upload-line"></i><span>Devolver</span></button>
+                                            @onclick="() => ReturnBook(loan.Id)"><span>Devolver</span></button>
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-sm btn-info" disabled><i
-                                            class="ri-contacts-book-upload-line"></i><span>Devolver</span></button>
+                                    <button type="button" class="btn btn-sm btn-info" disabled><span>Devolver</span></button>
                                 }
                             </td>
                         </tr>

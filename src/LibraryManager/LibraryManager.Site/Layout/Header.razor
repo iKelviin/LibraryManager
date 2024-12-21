@@ -186,17 +186,15 @@
                             <button type="button" class="btn material-shadow-none" id="page-header-user-dropdown"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
-                                    
-                                    <img class="rounded-circle header-profile-user"
-                                         src="https://avatars.githubusercontent.com/u/101436562?v=4"
-                                         alt="Header Avatar">
+                                    <div class="rounded-circle header-profile-user d-flex justify-content-center align-items-center"
+                                        style="width: 40px; height: 40px; background-color: @BackgroundColor; color: white; font-weight: bold;font-size: 26px">@Initial</div>
                                     <span class="text-start ms-xl-2">
-                                        <span
-                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">@Name</span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">@Email</span>    
-                                        </span>
+                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">@Name</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">@Email</span>
+                                    </span>
                                 </span>
                             </button>
+
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <h6 class="dropdown-header">Bem-vindo @Name!</h6>
@@ -211,7 +209,7 @@
                                 <a class="dropdown-item" @onclick="Logout">
                                     <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle"
-                                        data-key="t-logout" >Sair</span>
+                                        data-key="t-logout">Sair</span>
                                 </a>
 
 
@@ -230,8 +228,18 @@
 @code {
     public string Name { get; set; }
     public string Email { get; set; }
-    [Inject]
-    public Toastify toast { get; set; }
+    [Inject] public Toastify toast { get; set; }
+    private string Initial => string.IsNullOrWhiteSpace(Name) ? "?" : Name[0].ToString().ToUpper();
+    private string BackgroundColor => GenerateRandomColor();
+
+    private string GenerateRandomColor()
+    {
+        var random = new Random();
+        var r = random.Next(0, 256);
+        var g = random.Next(0, 256);
+        var b = random.Next(0, 256);
+        return $"rgb({r}, {g}, {b})";
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

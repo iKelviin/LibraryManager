@@ -7,6 +7,7 @@ namespace LibraryManager.Site.Services.Interfaces;
 public interface IAuthService
 {
     Task<ResultViewModel<UserViewModel>> Login(User user);
+    Task<ResultViewModel<Guid>> Register(UserCreateModel user);
     Task DeleteTokenFromCookie();
     Task<IEnumerable<Claim>?> VerifyUser();
     IEnumerable<Claim>? VerifyUser(string token);

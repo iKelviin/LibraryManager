@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kelvin\\Documents\\GitHub\\Projetos Mentoria\\LibraryManager\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj": {}
+    "D:\\SSD-Kelvin\\GitHub\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kelvin\\Documents\\GitHub\\Projetos Mentoria\\LibraryManager\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj": {
+    "D:\\SSD-Kelvin\\GitHub\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kelvin\\Documents\\GitHub\\Projetos Mentoria\\LibraryManager\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj",
+        "projectUniqueName": "D:\\SSD-Kelvin\\GitHub\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj",
         "projectName": "LibraryManager.Site",
-        "projectPath": "C:\\Users\\Kelvin\\Documents\\GitHub\\Projetos Mentoria\\LibraryManager\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj",
-        "packagesPath": "C:\\Users\\Kelvin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kelvin\\Documents\\GitHub\\Projetos Mentoria\\LibraryManager\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\obj\\",
+        "projectPath": "D:\\SSD-Kelvin\\GitHub\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\LibraryManager.Site.csproj",
+        "packagesPath": "C:\\Users\\kelvin.rocha\\.nuget\\packages\\",
+        "outputPath": "D:\\SSD-Kelvin\\GitHub\\LibraryManager\\src\\LibraryManager\\LibraryManager.Site\\obj\\",
         "projectStyle": "PackageReference",
-        "UsingMicrosoftNETSdk": false,
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Kelvin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kelvin.rocha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
