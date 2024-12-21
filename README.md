@@ -35,10 +35,10 @@ Antes de começar, você vai precisar ter instalado:
 - [JetBrains Rider](https://www.jetbrains.com/rider/) (ou outra IDE de sua preferência)
 - Banco de dados: SQL Server
 
-## Imagens do Frontend (Blazor)
+## Funcionalidades do Frontend (Blazor)
 
 ### Tela de Listagem dos Cards dos Livros
-![Tela de Listagem de Livros](/images/Site/books-card.png)
+![Tela de Listagem de Livros](/images/gifs/listagem-detalhes.gif)
 
 ### Tela de Listagem de Livros  
 ![Tela de Listagem de Livros](/images/Site/book-list.png)
@@ -79,14 +79,6 @@ Antes de começar, você vai precisar ter instalado:
 - **POST** `/api/users` - Adiciona um novo usuário.
 - **PUT** `/api/users/{id}` - Atualiza as informações de um usuário.
 - **DELETE** `/api/users/{id}` - Deleta um usuário.
-
----
-
-## Próximos Passos
-
-- Implementação de autenticação e autorização.
-- Testes unitários e de integração.
-- Melhorias na interface
 
 ---
 
