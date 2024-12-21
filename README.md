@@ -37,17 +37,26 @@ Antes de começar, você vai precisar ter instalado:
 
 ## Funcionalidades do Frontend (Blazor)
 
-### Tela de Listagem dos Cards dos Livros
-![Tela de Listagem de Livros](/images/gifs/listagem-detalhes.gif)
+### Listagem dos Livros e Detalhes
+![Listagem de Livros](/images/gifs/listagem-detalhes.gif)
 
-### Tela de Listagem de Livros  
-![Tela de Listagem de Livros](/images/Site/book-list.png)
+### Alugando Livro
+![Alugando Livro](/images/gifs/alugando.gif)
 
-### Tela de Cadastro/Edição de Livros  
-![Tela de Cadastro de Livros](/images/Site/book-edit.png)
+### Livro Arquivado ou Alugado
+![Arquivo ou Alugado](/images/gifs/alugado-arquivado.gif)
 
-### Tela de Detalhes do Livro
-![Tela de Listagem de Empréstimos](/images/Site/book-detail.png)
+###  Cadastro/Edição de Livros  
+![Tela de Cadastro de Livros](/images/gifs/crud-livros.gif)
+
+### Meus Aluguéis e Devolução
+![Meus Aluguéis](/images/gifs/meus-alugueis-devolver.gif)
+
+### Cadastro de Usuarios
+![Cadastro Usuarios](/images/gifs/Cadastro.gif)
+
+### Usuario Sem Acesso a Tela
+![Sem Acesso](/images/gifs/sem-acesso.gif)
   
 ## Como rodar o projeto
 
