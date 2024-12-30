@@ -13,7 +13,7 @@ public class AvailableBookHandler(IBookRepository bookRepository)
         
         if(book == null) return ResultViewModel.Error("Book not found.");
         
-        book.ToAvaliable();
+        book.ToAvailable();
         await bookRepository.UpdateAsync(book);
         return ResultViewModel.Success(); 
     }

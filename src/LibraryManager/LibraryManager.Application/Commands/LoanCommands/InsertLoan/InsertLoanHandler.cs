@@ -9,15 +9,20 @@ public class InsertLoanHandler : IRequestHandler<InsertLoanCommand, ResultViewMo
 {
     private readonly ILoanRepository _loanRepository;
     private readonly IBookRepository _bookRepository;
+    private readonly IUserRepository _userRepository;
 
-    public InsertLoanHandler(ILoanRepository repository, IBookRepository bookRepository)
+    public InsertLoanHandler(ILoanRepository repository, IBookRepository bookRepository, IUserRepository userRepository)
     {
         _loanRepository = repository;
         _bookRepository = bookRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<ResultViewModel<Guid>> Handle(InsertLoanCommand request, CancellationToken cancellationToken)
     {
+        var user = await _userRepository.GetByIdAsync(request.IdUser);
+        if(user == null) return ResultViewModel<Guid>.Error("User does not exist.");
+        
         var book = await _bookRepository.GetByIdAsync(request.IdBook);
         if (book == null) return ResultViewModel<Guid>.Error("Book not found.");
         

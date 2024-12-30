@@ -17,7 +17,7 @@ public class UpdateLoanHandler(ILoanRepository loanRepository, IBookRepository b
         await loanRepository.UpdateAsync(loan);
 
         var book = await bookRepository.GetByIdAsync(loan.IdBook);
-        book!.ToAvaliable();
+        book!.ToAvailable();
         await bookRepository.UpdateAsync(book);
 
         return ResultViewModel<string>.Success($"Book returned! Days overdue: {loan.OverdueDays().ToString()}");

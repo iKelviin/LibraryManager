@@ -42,7 +42,7 @@ public class Book : BaseEntity
         }
     }
 
-    public void ToAvaliable() => Status = BookStatus.Available;
+    public void ToAvailable() => Status = BookStatus.Available;
 
     public void Update(string title, string author, string isbn, int publicationYear, string imageUrl)
     {

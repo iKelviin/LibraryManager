@@ -33,4 +33,7 @@
 	
 	
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/Storage/@EntryValue">ThisComputer</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3f1251a6_002D17bb_002D4bc2_002Da1d6_002Def8b5d26f74f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from InsertLoanCommandHandlerTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\SSD-Kelvin\GitHub\LibraryManager\src\LibraryManager" Presentation="&amp;lt;API&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>
